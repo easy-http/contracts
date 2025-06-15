@@ -1,6 +1,6 @@
 # Release Notes for 2.x
 
-## [v2.0.0 (2025-06-14)](https://github.com/easy-http/contracts/tree/v2.0.0)
+## [v2.0.0 (2025-06-15)](https://github.com/easy-http/contracts/tree/v2.0.0)
 
 ### Changed
 - Renamed project from [layer-contracts](https://github.com/easy-http/layer-contracts) to [contracts](https://github.com/easy-http/contracts) for improved clarity
