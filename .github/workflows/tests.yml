@@ -8,56 +8,19 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  php-74:
+  php:
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      matrix:
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
 
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php }}
           coverage: none
-          ini-values: error_reporting=E_ALL, display_errors=On
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: composer install --no-interaction
-
-      - name: Execute tests
-        run: composer tests
-
-  php-80:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          coverage: none
-          ini-values: error_reporting=E_ALL, display_errors=On
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: composer install --no-interaction
-
-      - name: Execute tests
-        run: composer tests
-
-  php-81:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-          coverage: none
-          ini-values: error_reporting=E_ALL, display_errors=On
 
       - name: Checkout code
         uses: actions/checkout@v2
