@@ -1,11 +1,11 @@
 <?php
 
-namespace EasyHttp\LayerContracts;
+namespace EasyHttp\Contracts;
 
-use EasyHttp\LayerContracts\Contracts\EasyClientContract;
-use EasyHttp\LayerContracts\Contracts\HttpClientAdapter;
-use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
-use EasyHttp\LayerContracts\Contracts\HttpClientResponse;
+use EasyHttp\Contracts\Contracts\EasyClientContract;
+use EasyHttp\Contracts\Contracts\HttpClientAdapter;
+use EasyHttp\Contracts\Contracts\HttpClientRequest;
+use EasyHttp\Contracts\Contracts\HttpClientResponse;
 
 abstract class AbstractClient implements EasyClientContract
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Tests\Unit\Example;
+namespace EasyHttp\Contracts\Tests\Unit\Example;
 
-use EasyHttp\LayerContracts\AbstractClient;
-use EasyHttp\LayerContracts\Contracts\HttpClientAdapter;
-use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
+use EasyHttp\Contracts\AbstractClient;
+use EasyHttp\Contracts\Contracts\HttpClientAdapter;
+use EasyHttp\Contracts\Contracts\HttpClientRequest;
 
 class SomeClient extends AbstractClient
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Common;
+namespace EasyHttp\Contracts\Common;
 
-use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
-use EasyHttp\LayerContracts\Contracts\Request\HttpSecurityContext;
+use EasyHttp\Contracts\Contracts\HttpClientRequest;
+use EasyHttp\Contracts\Contracts\Request\HttpSecurityContext;
 
 class ClientRequest implements HttpClientRequest
 {

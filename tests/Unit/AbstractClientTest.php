@@ -1,12 +1,12 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Tests\Unit;
+namespace EasyHttp\Contracts\Tests\Unit;
 
-use EasyHttp\LayerContracts\Contracts\HttpClientResponse;
-use EasyHttp\LayerContracts\Exceptions\HttpClientException;
-use EasyHttp\LayerContracts\Exceptions\HttpConnectionException;
-use EasyHttp\LayerContracts\Exceptions\ImpossibleToParseJsonException;
-use EasyHttp\LayerContracts\Tests\Unit\Example\SomeClient;
+use EasyHttp\Contracts\Contracts\HttpClientResponse;
+use EasyHttp\Contracts\Exceptions\HttpClientException;
+use EasyHttp\Contracts\Exceptions\HttpConnectionException;
+use EasyHttp\Contracts\Exceptions\ImpossibleToParseJsonException;
+use EasyHttp\Contracts\Tests\Unit\Example\SomeClient;
 use PHPUnit\Framework\TestCase;
 
 class AbstractClientTest extends TestCase

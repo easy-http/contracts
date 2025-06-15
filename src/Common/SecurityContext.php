@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Common;
+namespace EasyHttp\Contracts\Common;
 
-use EasyHttp\LayerContracts\Contracts\Request\HttpSecurityContext;
+use EasyHttp\Contracts\Contracts\Request\HttpSecurityContext;
 
 class SecurityContext implements HttpSecurityContext
 {

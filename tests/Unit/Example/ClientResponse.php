@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Tests\Unit\Example;
+namespace EasyHttp\Contracts\Tests\Unit\Example;
 
-use EasyHttp\LayerContracts\Contracts\HttpClientResponse;
+use EasyHttp\Contracts\Contracts\HttpClientResponse;
 
 class ClientResponse implements HttpClientResponse
 {

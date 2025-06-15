@@ -1,9 +1,9 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Tests\Unit\Common;
+namespace EasyHttp\Contracts\Tests\Unit\Common;
 
-use EasyHttp\LayerContracts\Common\SecurityContext;
-use EasyHttp\LayerContracts\Tests\TestCase;
+use EasyHttp\Contracts\Common\SecurityContext;
+use EasyHttp\Contracts\Tests\TestCase;
 
 class ClientRequestSecurityTest extends TestCase
 {

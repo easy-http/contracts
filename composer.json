@@ -1,5 +1,5 @@
 {
-    "name": "easy-http/layer-contracts",
+    "name": "easy-http/contracts",
     "description": "HTTP client adapter contracts for PHP applications",
     "type": "library",
     "license": "MIT",
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "EasyHttp\\LayerContracts\\": "src/"
+            "EasyHttp\\Contracts\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "EasyHttp\\LayerContracts\\Tests\\": "tests/"
+            "EasyHttp\\Contracts\\Tests\\": "tests/"
         }
     }
 }

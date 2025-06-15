@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Contracts;
+namespace EasyHttp\Contracts\Contracts;
 
-use EasyHttp\LayerContracts\Exceptions\ImpossibleToParseJsonException;
+use EasyHttp\Contracts\Exceptions\ImpossibleToParseJsonException;
 
 interface HttpClientResponse
 {
