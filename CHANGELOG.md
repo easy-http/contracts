@@ -6,7 +6,7 @@
 - Renamed project from [layer-contracts](https://github.com/easy-http/layer-contracts) to [contracts](https://github.com/easy-http/contracts) for improved clarity
 - Updated namespace from `EasyHttp\LayerContracts` to `EasyHttp\Contracts`
 - Updated all documentation and badges to reflect the new project name
-- Deprecate Scrutinizer CI and use SonarCloud only for code quality metrics
+- Deprecate Scrutinizer CI and use SonarCloud for code quality metrics
 
 ### Deprecation Notice
 - The original `easy-http/layer-contracts` package is now deprecated
