@@ -10,22 +10,21 @@
 </p>
 
 <p align="center">
-    :bookmark: Consistent interface for http clients
+    :bookmark: Consistent interface for HTTP clients
 </p>
 
 <p align="center"><img src="https://blog.pleets.org/img/articles/easy-http-contracts.png" width="500"></p>
 
 <p align="center">
-    :rocket: Change easily from one client to another using http layer contracts
+    :rocket: Seamlessly switch between different HTTP clients using standardized adapter contracts
 </p>
 
-# Layer Contracts
+# HTTP Client Adapter Contracts
 
 <a href="https://sonarcloud.io/component_measures?metric=security_rating&branch=1.x&id=easy-http_layer-contracts"><img src="https://sonarcloud.io/api/project_badges/measure?project=easy-http_layer-contracts&metric=security_rating&branch=1.x" alt="Bugs"></a>
 <a href="https://sonarcloud.io/component_measures?metric=bugs&branch=1.x&id=easy-http_layer-contracts"><img src="https://sonarcloud.io/api/project_badges/measure?project=easy-http_layer-contracts&metric=bugs&branch=1.x" alt="Bugs"></a>
 <a href="https://sonarcloud.io/component_measures?metric=code_smells&branch=1.x&id=easy-http_layer-contracts"><img src="https://sonarcloud.io/api/project_badges/measure?project=easy-http_layer-contracts&metric=code_smells&branch=1.x" alt="Bugs"></a>
 
-HTTP layer contracts for PHP clients. These contracts standardize the way you consume HTTP clients like Guzzle, Symfony, and others
-with a consistent interface. No matter what client you are using, the methods you have to execute to do the job are the same for all!!.
+HTTP client adapter contracts for PHP applications. These contracts provide a standardized interface for working with different HTTP clients like Guzzle, Symfony, and others. By implementing these contracts, you can easily switch between different HTTP client implementations while maintaining a consistent API in your application.
 
-:books: Check out the [Documentation](https://easy-http.com/docs) to learn how to use any layer that implements these contracts.
+:books: Check out the [Documentation](https://easy-http.com/docs) to learn how to use any adapter that implements these contracts.

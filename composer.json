@@ -1,6 +1,6 @@
 {
     "name": "easy-http/layer-contracts",
-    "description": "Http layer contracts for PHP clients",
+    "description": "HTTP client adapter contracts for PHP applications",
     "type": "library",
     "license": "MIT",
     "authors": [
