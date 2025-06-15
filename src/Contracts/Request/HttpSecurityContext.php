@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Contracts\Request;
+namespace EasyHttp\Contracts\Contracts\Request;
 
 interface HttpSecurityContext
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Tests\Unit\Example;
+namespace EasyHttp\Contracts\Tests\Unit\Example;
 
-use EasyHttp\LayerContracts\Contracts\HttpClientAdapter;
-use EasyHttp\LayerContracts\Contracts\HttpClientRequest;
-use EasyHttp\LayerContracts\Contracts\HttpClientResponse;
+use EasyHttp\Contracts\Contracts\HttpClientAdapter;
+use EasyHttp\Contracts\Contracts\HttpClientRequest;
+use EasyHttp\Contracts\Contracts\HttpClientResponse;
 
 class ClientAdapter implements HttpClientAdapter
 {

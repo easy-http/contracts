@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Contracts;
+namespace EasyHttp\Contracts\Contracts;
 
-use EasyHttp\LayerContracts\Contracts\Request\HttpSecurityContext;
+use EasyHttp\Contracts\Contracts\Request\HttpSecurityContext;
 
 interface HttpClientRequest
 {

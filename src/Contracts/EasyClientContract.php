@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Contracts;
+namespace EasyHttp\Contracts\Contracts;
 
 interface EasyClientContract
 {

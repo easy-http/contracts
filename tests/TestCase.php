@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Tests;
+namespace EasyHttp\Contracts\Tests;
 
 use Faker\Factory;
 use Faker\Generator;

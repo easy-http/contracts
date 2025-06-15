@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHttp\LayerContracts\Contracts;
+namespace EasyHttp\Contracts\Contracts;
 
-use EasyHttp\LayerContracts\Exceptions\HttpClientException;
+use EasyHttp\Contracts\Exceptions\HttpClientException;
 
 interface HttpClientAdapter
 {
