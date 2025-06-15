@@ -1,20 +1,15 @@
-# Release Notes for 1.x
+# Release Notes for 2.x
 
-## [v1.0.0 (2022-05-03)](https://github.com/easy-http/layer-contracts/compare/v0.2.0...v1.0.0)
-
-### Add
-- Add common implementations (ClientRequest, SecurityContext) ([#34](https://github.com/easy-http/layer-contracts/pull/34))
-- Add connection exception ([#37](https://github.com/easy-http/layer-contracts/pull/37))
+## [v2.0.0 (2025-06-14)](https://github.com/easy-http/contracts/tree/v2.0.0)
 
 ### Changed
-- HttpClientRequest contract now has getHeaders() ([#33](https://github.com/easy-http/layer-contracts/pull/33))
-- Add has methods (hasJson, hasHeaders, ...) ([#34](https://github.com/easy-http/layer-contracts/pull/34))
-- Support certificate/private key with security context ([#34](https://github.com/easy-http/layer-contracts/pull/34))
-- Remove logic from HttpClientException ([#35](https://github.com/easy-http/layer-contracts/pull/35))
+- Renamed project from `easy-http/layer-contracts` to `easy-http/contracts` for improved clarity
+- Updated namespace from `EasyHttp\LayerContracts` to `EasyHttp\Contracts`
+- Updated all documentation and badges to reflect the new project name
+- Switched from Scrutinizer CI to SonarCloud for code quality metrics
 
-# Release Notes for 0.x
+### Deprecation Notice
+- The original `easy-http/layer-contracts` package is now deprecated
+- Users are encouraged to migrate to `easy-http/contracts` v2.0.0
+- No functional changes were made in this release, only naming improvements
 
-## [v0.2.0 (2021-02-02)](https://github.com/easy-http/layer-contracts/compare/v0.1.0...v0.2.0)
-
-### Added
-- Added support for PHP 8.0 ([#31](https://github.com/easy-http/layer-contracts/pull/31))
