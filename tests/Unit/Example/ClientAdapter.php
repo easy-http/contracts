@@ -1,12 +1,12 @@
 <?php
 
-namespace EasyHttp\Contracts\Tests\Unit\Example;
+namespace EasyHTTP\Contracts\Tests\Unit\Example;
 
-use EasyHttp\Contracts\Contracts\HttpClientAdapter;
-use EasyHttp\Contracts\Contracts\HttpClientRequest;
-use EasyHttp\Contracts\Contracts\HttpClientResponse;
+use EasyHTTP\Contracts\Contracts\HTTPClientAdapter;
+use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
+use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 
-class ClientAdapter implements HttpClientAdapter
+class ClientAdapter implements HTTPClientAdapter
 {
     protected $handler;
 
@@ -15,7 +15,7 @@ class ClientAdapter implements HttpClientAdapter
         $this->handler = $handler;
     }
 
-    public function request(HttpClientRequest $request): HttpClientResponse
+    public function request(HTTPClientRequest $request): HTTPClientResponse
     {
         $response = $this->call($request->getMethod(), $request->getUri());
         return new ClientResponse($response);

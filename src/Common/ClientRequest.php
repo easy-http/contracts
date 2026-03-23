@@ -1,11 +1,11 @@
 <?php
 
-namespace EasyHttp\Contracts\Common;
+namespace EasyHTTP\Contracts\Common;
 
-use EasyHttp\Contracts\Contracts\HttpClientRequest;
-use EasyHttp\Contracts\Contracts\Request\HttpSecurityContext;
+use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
+use EasyHTTP\Contracts\Contracts\Request\HTTPSecurityContext;
 
-class ClientRequest implements HttpClientRequest
+class ClientRequest implements HTTPClientRequest
 {
     protected string $method;
     protected string $uri;
@@ -13,7 +13,7 @@ class ClientRequest implements HttpClientRequest
     protected string $body = '';
     protected array $json = [];
     protected array $query = [];
-    protected ?HttpSecurityContext $securityContext = null;
+    protected ?HTTPSecurityContext $securityContext = null;
     protected int $timeout = 10;
     protected array $basicAuth = [];
     protected bool $ssl = false;
@@ -74,7 +74,7 @@ class ClientRequest implements HttpClientRequest
         return $this->timeout;
     }
 
-    public function getSecurityContext(): ?HttpSecurityContext
+    public function getSecurityContext(): ?HTTPSecurityContext
     {
         return $this->securityContext;
     }
@@ -179,7 +179,7 @@ class ClientRequest implements HttpClientRequest
         return $this;
     }
 
-    public function setSecurityContext(HttpSecurityContext $securityContext): self
+    public function setSecurityContext(HTTPSecurityContext $securityContext): self
     {
         $this->securityContext = $securityContext;
 

@@ -1,4 +1,10 @@
-# Release Notes for 2.x
+# Release Notes
+
+## [v3.0.0 (Unreleased)](https://github.com/easy-http/contracts/tree/v3.0.0)
+
+### Changed
+- Standardized root namespace from `EasyHttp` to `EasyHTTP`. ([#3](https://github.com/easy-http/contracts/pull/3)).
+- Standardized artifact names from `Http*` to `HTTP*`. ([#3](https://github.com/easy-http/contracts/pull/3))
 
 ## [v2.0.0 (2025-06-15)](https://github.com/easy-http/contracts/tree/v2.0.0)
 

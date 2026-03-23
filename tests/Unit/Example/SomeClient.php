@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\Contracts\Tests\Unit\Example;
+namespace EasyHTTP\Contracts\Tests\Unit\Example;
 
-use EasyHttp\Contracts\AbstractClient;
-use EasyHttp\Contracts\Contracts\HttpClientAdapter;
-use EasyHttp\Contracts\Contracts\HttpClientRequest;
+use EasyHTTP\Contracts\AbstractClient;
+use EasyHTTP\Contracts\Contracts\HTTPClientAdapter;
+use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
 
 class SomeClient extends AbstractClient
 {
@@ -15,12 +15,12 @@ class SomeClient extends AbstractClient
         return $this->adapterCounter;
     }
 
-    protected function buildRequest(string $method, string $uri): HttpClientRequest
+    protected function buildRequest(string $method, string $uri): HTTPClientRequest
     {
         return new ClientRequest($method, $uri);
     }
 
-    protected function buildAdapter(): HttpClientAdapter
+    protected function buildAdapter(): HTTPClientAdapter
     {
         $this->adapterCounter++;
 

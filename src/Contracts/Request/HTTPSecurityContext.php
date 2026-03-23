@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHttp\Contracts\Contracts\Request;
+namespace EasyHTTP\Contracts\Contracts\Request;
 
-interface HttpSecurityContext
+interface HTTPSecurityContext
 {
     public function getCertificate(): string;
     public function getPrivateKey(): string;

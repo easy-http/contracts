@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="PHP Coding Standards" namespace="EasyHttp\CS\Standard">
+<ruleset name="PHP Coding Standards" namespace="EasyHTTP\CS\Standard">
 
     <file>./src</file>
     <file>./tests</file>

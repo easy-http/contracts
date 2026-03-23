@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\Contracts\Tests\Unit\Example;
+namespace EasyHTTP\Contracts\Tests\Unit\Example;
 
-use EasyHttp\Contracts\Contracts\HttpClientResponse;
+use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 
-class ClientResponse implements HttpClientResponse
+class ClientResponse implements HTTPClientResponse
 {
     protected array $headers;
     protected int $status;

@@ -1,32 +1,32 @@
 <?php
 
-namespace EasyHttp\Contracts;
+namespace EasyHTTP\Contracts;
 
-use EasyHttp\Contracts\Contracts\EasyClientContract;
-use EasyHttp\Contracts\Contracts\HttpClientAdapter;
-use EasyHttp\Contracts\Contracts\HttpClientRequest;
-use EasyHttp\Contracts\Contracts\HttpClientResponse;
+use EasyHTTP\Contracts\Contracts\EasyClientContract;
+use EasyHTTP\Contracts\Contracts\HTTPClientAdapter;
+use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
+use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 
 abstract class AbstractClient implements EasyClientContract
 {
-    protected HttpClientAdapter $adapter;
+    protected HTTPClientAdapter $adapter;
 
-    protected HttpClientRequest $request;
+    protected HTTPClientRequest $request;
 
     protected $handler;
 
-    public function getRequest(): HttpClientRequest
+    public function getRequest(): HTTPClientRequest
     {
         return $this->request;
     }
 
-    public function call(string $method, string $uri): HttpClientResponse
+    public function call(string $method, string $uri): HTTPClientResponse
     {
         $request = $this->buildRequest($method, $uri);
         return $this->getAdapter()->request($request);
     }
 
-    public function prepareRequest(string $method, string $uri): HttpClientRequest
+    public function prepareRequest(string $method, string $uri): HTTPClientRequest
     {
         $this->request = $this->buildRequest($method, $uri);
 
@@ -41,12 +41,12 @@ abstract class AbstractClient implements EasyClientContract
         return $this;
     }
 
-    public function execute(): HttpClientResponse
+    public function execute(): HTTPClientResponse
     {
         return $this->getAdapter()->request($this->request);
     }
 
-    protected function getAdapter(): HttpClientAdapter
+    protected function getAdapter(): HTTPClientAdapter
     {
         if ($this->hasAdapter()) {
             return $this->adapter;
@@ -72,6 +72,6 @@ abstract class AbstractClient implements EasyClientContract
         unset($this->adapter);
     }
 
-    abstract protected function buildRequest(string $method, string $uri): HttpClientRequest;
-    abstract protected function buildAdapter(): HttpClientAdapter;
+    abstract protected function buildRequest(string $method, string $uri): HTTPClientRequest;
+    abstract protected function buildAdapter(): HTTPClientAdapter;
 }

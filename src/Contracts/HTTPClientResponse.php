@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\Contracts\Contracts;
+namespace EasyHTTP\Contracts\Contracts;
 
-use EasyHttp\Contracts\Exceptions\ImpossibleToParseJsonException;
+use EasyHTTP\Contracts\Exceptions\ImpossibleToParseJsonException;
 
-interface HttpClientResponse
+interface HTTPClientResponse
 {
     public function getStatusCode(): int;
     public function getHeaders(): array;

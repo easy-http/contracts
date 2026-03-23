@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 2.x
+      - 3.x
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -52,6 +53,6 @@ jobs:
           path: .
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
