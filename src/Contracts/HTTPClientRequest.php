@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\Contracts\Contracts;
+namespace EasyHTTP\Contracts\Contracts;
 
-use EasyHttp\Contracts\Contracts\Request\HttpSecurityContext;
+use EasyHTTP\Contracts\Contracts\Request\HTTPSecurityContext;
 
-interface HttpClientRequest
+interface HTTPClientRequest
 {
     public function getMethod(): string;
     public function getUri(): string;
@@ -37,7 +37,7 @@ interface HttpClientRequest
     public function getQuery(): array;
 
     public function getTimeout(): int;
-    public function getSecurityContext(): ?HttpSecurityContext;
+    public function getSecurityContext(): ?HTTPSecurityContext;
 
     /**
      * Returns an array with basic auth credentials.
@@ -64,7 +64,7 @@ interface HttpClientRequest
     public function setQuery(array $query): self;
 
     public function setTimeout(int $timeout): self;
-    public function setSecurityContext(HttpSecurityContext $securityContext): self;
+    public function setSecurityContext(HTTPSecurityContext $securityContext): self;
     public function setBasicAuth(string $username, string $password): self;
 
     /**

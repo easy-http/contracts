@@ -1,12 +1,12 @@
 <?php
 
-namespace EasyHttp\Contracts\Tests\Unit;
+namespace EasyHTTP\Contracts\Tests\Unit;
 
-use EasyHttp\Contracts\Contracts\HttpClientResponse;
-use EasyHttp\Contracts\Exceptions\HttpClientException;
-use EasyHttp\Contracts\Exceptions\HttpConnectionException;
-use EasyHttp\Contracts\Exceptions\ImpossibleToParseJsonException;
-use EasyHttp\Contracts\Tests\Unit\Example\SomeClient;
+use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
+use EasyHTTP\Contracts\Exceptions\HTTPClientException;
+use EasyHTTP\Contracts\Exceptions\HTTPConnectionException;
+use EasyHTTP\Contracts\Exceptions\ImpossibleToParseJsonException;
+use EasyHTTP\Contracts\Tests\Unit\Example\SomeClient;
 use PHPUnit\Framework\TestCase;
 
 class AbstractClientTest extends TestCase
@@ -16,7 +16,7 @@ class AbstractClientTest extends TestCase
     /**
      * @test
      */
-    public function itExecutesARequest(): HttpClientResponse
+    public function itExecutesARequest(): HTTPClientResponse
     {
         $client = new SomeClient();
 
@@ -35,10 +35,10 @@ class AbstractClientTest extends TestCase
     /**
      * @test
      * @depends itExecutesARequest
-     * @param HttpClientResponse $response
+     * @param HTTPClientResponse $response
      * @throws ImpossibleToParseJsonException
      */
-    public function itCanParseAResponseToJson(HttpClientResponse $response)
+    public function itCanParseAResponseToJson(HTTPClientResponse $response)
     {
         $this->assertSame(['key' => 'value'], $response->parseJson());
     }
@@ -150,13 +150,13 @@ class AbstractClientTest extends TestCase
      */
     public function itThrowsClientExceptionWhenFails()
     {
-        $this->expectException(HttpClientException::class);
+        $this->expectException(HTTPClientException::class);
 
         $client = new SomeClient();
 
         $client->withHandler(
             function () {
-                throw new HttpClientException('Bad request exception');
+                throw new HTTPClientException('Bad request exception');
             }
         );
 
@@ -171,13 +171,13 @@ class AbstractClientTest extends TestCase
      */
     public function itThrowsClientExceptionWhenConnectionFails()
     {
-        $this->expectException(HttpConnectionException::class);
+        $this->expectException(HTTPConnectionException::class);
 
         $client = new SomeClient();
 
         $client->withHandler(
             function () {
-                throw new HttpConnectionException('Service is down');
+                throw new HTTPConnectionException('Service is down');
             }
         );
 

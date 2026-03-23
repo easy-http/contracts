@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyHttp\Contracts\Common;
+namespace EasyHTTP\Contracts\Common;
 
-use EasyHttp\Contracts\Contracts\Request\HttpSecurityContext;
+use EasyHTTP\Contracts\Contracts\Request\HTTPSecurityContext;
 
-class SecurityContext implements HttpSecurityContext
+class SecurityContext implements HTTPSecurityContext
 {
     protected string $certificate;
     protected string $privateKey;

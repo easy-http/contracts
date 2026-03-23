@@ -1,7 +1,7 @@
 <?php
 
-namespace EasyHttp\Contracts\Tests\Unit\Example;
+namespace EasyHTTP\Contracts\Tests\Unit\Example;
 
-class ClientRequest extends \EasyHttp\Contracts\Common\ClientRequest
+class ClientRequest extends \EasyHTTP\Contracts\Common\ClientRequest
 {
 }

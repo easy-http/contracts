@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "EasyHttp\\Contracts\\": "src/"
+            "EasyHTTP\\Contracts\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "EasyHttp\\Contracts\\Tests\\": "tests/"
+            "EasyHTTP\\Contracts\\Tests\\": "tests/"
         }
     }
 }
