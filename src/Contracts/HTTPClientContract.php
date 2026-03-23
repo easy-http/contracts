@@ -2,7 +2,7 @@
 
 namespace EasyHTTP\Contracts\Contracts;
 
-interface EasyClientContract
+interface HTTPClientContract
 {
     public function getRequest(): HTTPClientRequest;
     public function call(string $method, string $uri): HTTPClientResponse;

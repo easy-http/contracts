@@ -2,12 +2,12 @@
 
 namespace EasyHTTP\Contracts;
 
-use EasyHTTP\Contracts\Contracts\EasyClientContract;
+use EasyHTTP\Contracts\Contracts\HTTPClientContract;
 use EasyHTTP\Contracts\Contracts\HTTPClientAdapter;
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 
-abstract class AbstractClient implements EasyClientContract
+abstract class AbstractClient implements HTTPClientContract
 {
     protected HTTPClientAdapter $adapter;
 

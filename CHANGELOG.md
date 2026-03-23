@@ -5,6 +5,7 @@
 ### Changed
 - Standardized root namespace from `EasyHttp` to `EasyHTTP`. ([#3](https://github.com/easy-http/contracts/pull/3)).
 - Standardized artifact names from `Http*` to `HTTP*`. ([#3](https://github.com/easy-http/contracts/pull/3))
+- Renamed `EasyClientContract` to `HTTPClientContract`. ([#4](https://github.com/easy-http/contracts/pull/4))
 
 ## [v2.0.0 (2025-06-15)](https://github.com/easy-http/contracts/tree/v2.0.0)
 
