@@ -2,7 +2,7 @@
 
 namespace EasyHTTP\Contracts\Contracts;
 
-use EasyHTTP\Contracts\Exceptions\ImpossibleToParseJsonException;
+use EasyHTTP\Contracts\Exceptions\HTTPJsonParseException;
 
 interface HTTPClientResponse
 {
@@ -12,7 +12,7 @@ interface HTTPClientResponse
 
     /**
      * @return array
-     * @throws ImpossibleToParseJsonException
+     * @throws HTTPJsonParseException
      */
     public function parseJson(): array;
 }

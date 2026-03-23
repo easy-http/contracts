@@ -4,6 +4,6 @@ namespace EasyHTTP\Contracts\Exceptions;
 
 use Exception;
 
-class ImpossibleToParseJsonException extends Exception
+class HTTPJsonParseException extends Exception
 {
 }
