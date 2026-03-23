@@ -5,7 +5,7 @@ namespace EasyHTTP\Contracts\Tests\Unit;
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 use EasyHTTP\Contracts\Exceptions\HTTPClientException;
 use EasyHTTP\Contracts\Exceptions\HTTPConnectionException;
-use EasyHTTP\Contracts\Exceptions\ImpossibleToParseJsonException;
+use EasyHTTP\Contracts\Exceptions\HTTPJsonParseException;
 use EasyHTTP\Contracts\Tests\Unit\Example\SomeClient;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class AbstractClientTest extends TestCase
      * @test
      * @depends itExecutesARequest
      * @param HTTPClientResponse $response
-     * @throws ImpossibleToParseJsonException
+     * @throws HTTPJsonParseException
      */
     public function itCanParseAResponseToJson(HTTPClientResponse $response)
     {
@@ -186,7 +186,7 @@ class AbstractClientTest extends TestCase
 
     public function itThrowsNotParsedExceptionWhenInvalidJsonIsFound()
     {
-        $this->expectException(ImpossibleToParseJsonException::class);
+        $this->expectException(HTTPJsonParseException::class);
 
         $client = new SomeClient();
 
