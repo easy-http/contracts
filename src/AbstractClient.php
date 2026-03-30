@@ -10,10 +10,14 @@ use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 abstract class AbstractClient implements HTTPClientContract
 {
     protected HTTPClientAdapter $adapter;
-
     protected HTTPClientRequest $request;
-
+    protected HTTPClientFactory $factory;
     protected $handler;
+
+    public function __construct(HTTPClientFactory $factory)
+    {
+        $this->factory = $factory;
+    }
 
     public function getRequest(): HTTPClientRequest
     {
@@ -22,13 +26,13 @@ abstract class AbstractClient implements HTTPClientContract
 
     public function call(string $method, string $uri): HTTPClientResponse
     {
-        $request = $this->buildRequest($method, $uri);
+        $request = $this->factory->createRequest($method, $uri);
         return $this->getAdapter()->request($request);
     }
 
     public function prepareRequest(string $method, string $uri): HTTPClientRequest
     {
-        $this->request = $this->buildRequest($method, $uri);
+        $this->request = $this->factory->createRequest($method, $uri);
 
         return $this->request;
     }
@@ -52,7 +56,7 @@ abstract class AbstractClient implements HTTPClientContract
             return $this->adapter;
         }
 
-        $this->adapter = $this->buildAdapter();
+        $this->adapter = $this->factory->createAdapter($this->handler);
 
         return $this->adapter;
     }
@@ -71,7 +75,4 @@ abstract class AbstractClient implements HTTPClientContract
     {
         unset($this->adapter);
     }
-
-    abstract protected function buildRequest(string $method, string $uri): HTTPClientRequest;
-    abstract protected function buildAdapter(): HTTPClientAdapter;
 }
