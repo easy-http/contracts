@@ -24,6 +24,7 @@ class ClientRequestTest extends TestCase
         $this->assertEmpty($request->getBody());
         $this->assertFalse($request->hasJson());
         $this->assertFalse($request->hasQuery());
+        $this->assertFalse($request->hasUrlEncodedData());
         $this->assertFalse($request->hasSecurityContext());
         $this->assertFalse($request->isSSL());
         $this->assertFalse($request->hasBasicAuth());
@@ -42,6 +43,7 @@ class ClientRequestTest extends TestCase
         $request->setUri($url);
         $request->setJson(['foo' => 'bar']);
         $request->setQuery(['bar' => 'baz']);
+        $request->setUrlEncodedData(['alpha' => 'beta']);
         $request->setTimeout(20);
         $request->setHeaders(['a' => 'b']);
         $request->setHeader('auth', 'xdsG56');
@@ -56,6 +58,8 @@ class ClientRequestTest extends TestCase
         $this->assertTrue($request->hasJson());
         $this->assertSame(['bar' => 'baz'], $request->getQuery());
         $this->assertTrue($request->hasQuery());
+        $this->assertSame(['alpha' => 'beta'], $request->getUrlEncodedData());
+        $this->assertTrue($request->hasUrlEncodedData());
         $this->assertSame(20, $request->getTimeout());
         $this->assertSame('xdsG56', $request->getHeader('auth'));
         $this->assertSame(['a' => 'b', 'auth' => 'xdsG56'], $request->getHeaders());

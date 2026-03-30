@@ -36,6 +36,14 @@ interface HTTPClientRequest
      */
     public function getQuery(): array;
 
+    /**
+     * Returns an array of key -> value pairs to be sent as URL-encoded form data
+     * Ex: ['foo' => 'bar', 'flag' => 'enabled']
+     *
+     * @return array
+     */
+    public function getUrlEncodedData(): array;
+
     public function getTimeout(): int;
     public function getSecurityContext(): ?HTTPSecurityContext;
 
@@ -52,6 +60,7 @@ interface HTTPClientRequest
     public function hasBody(): bool;
     public function hasJson(): bool;
     public function hasQuery(): bool;
+    public function hasUrlEncodedData(): bool;
     public function hasSecurityContext(): bool;
     public function hasBasicAuth(): bool;
 
@@ -62,6 +71,7 @@ interface HTTPClientRequest
     public function setBody(string $body): self;
     public function setJson(array $json): self;
     public function setQuery(array $query): self;
+    public function setUrlEncodedData(array $urlEncodedData): self;
 
     public function setTimeout(int $timeout): self;
     public function setSecurityContext(HTTPSecurityContext $securityContext): self;

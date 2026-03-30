@@ -9,6 +9,9 @@
 - Renamed `ImpossibleToParseJsonException` to `HTTPJsonParseException`. ([#5](https://github.com/easy-http/contracts/pull/5))
 - Introduced `HTTPClientFactory` and refactored `AbstractClient` to create requests and adapters through factory methods. ([#6](https://github.com/easy-http/contracts/pull/6))
 
+### Added
+- URL-encoded request data support to `HTTPClientRequest`/`ClientRequest` via `setUrlEncodedData()`, `getUrlEncodedData()`, and `hasUrlEncodedData()`. ([#7](https://github.com/easy-http/contracts/pull/7))
+
 ## [v2.0.0 (2025-06-15)](https://github.com/easy-http/contracts/tree/v2.0.0)
 
 ### Changed

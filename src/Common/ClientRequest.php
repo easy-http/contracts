@@ -13,6 +13,7 @@ class ClientRequest implements HTTPClientRequest
     protected string $body = '';
     protected array $json = [];
     protected array $query = [];
+    protected array $urlEncodedData = [];
     protected ?HTTPSecurityContext $securityContext = null;
     protected int $timeout = 10;
     protected array $basicAuth = [];
@@ -69,6 +70,11 @@ class ClientRequest implements HTTPClientRequest
         return $this->query;
     }
 
+    public function getUrlEncodedData(): array
+    {
+        return $this->urlEncodedData;
+    }
+
     public function getTimeout(): int
     {
         return $this->timeout;
@@ -103,6 +109,11 @@ class ClientRequest implements HTTPClientRequest
     public function hasQuery(): bool
     {
         return !empty($this->query);
+    }
+
+    public function hasUrlEncodedData(): bool
+    {
+        return !empty($this->urlEncodedData);
     }
 
     public function hasHeaders(): bool
@@ -168,6 +179,13 @@ class ClientRequest implements HTTPClientRequest
     public function setQuery(array $query): self
     {
         $this->query = $query;
+
+        return $this;
+    }
+
+    public function setUrlEncodedData(array $urlEncodedData): self
+    {
+        $this->urlEncodedData = $urlEncodedData;
 
         return $this;
     }
