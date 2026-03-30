@@ -7,6 +7,7 @@
 - Standardized artifact names from `Http*` to `HTTP*`. ([#3](https://github.com/easy-http/contracts/pull/3))
 - Renamed `EasyClientContract` to `HTTPClientContract`. ([#4](https://github.com/easy-http/contracts/pull/4))
 - Renamed `ImpossibleToParseJsonException` to `HTTPJsonParseException`. ([#5](https://github.com/easy-http/contracts/pull/5))
+- Introduced `HTTPClientFactory` and refactored `AbstractClient` to create requests and adapters through factory methods. ([#6](https://github.com/easy-http/contracts/pull/6))
 
 ## [v2.0.0 (2025-06-15)](https://github.com/easy-http/contracts/tree/v2.0.0)
 
