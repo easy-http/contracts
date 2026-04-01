@@ -1,6 +1,6 @@
 {
     "name": "easy-http/contracts",
-    "description": "HTTP client adapter contracts for PHP applications",
+    "description": "A Solid set of Adapter-Driven HTTP contracts for PHP",
     "type": "library",
     "license": "MIT",
     "authors": [
