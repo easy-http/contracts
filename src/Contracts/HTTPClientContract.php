@@ -9,4 +9,5 @@ interface HTTPClientContract
     public function prepareRequest(string $method, string $uri): HTTPClientRequest;
     public function withHandler(callable $handler): self;
     public function execute(): HTTPClientResponse;
+    public function stream(): HTTPStreamResponse;
 }

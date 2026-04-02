@@ -6,6 +6,7 @@ use EasyHTTP\Contracts\Contracts\HTTPClientContract;
 use EasyHTTP\Contracts\Contracts\HTTPClientAdapter;
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
+use EasyHTTP\Contracts\Contracts\HTTPStreamResponse;
 
 abstract class AbstractClient implements HTTPClientContract
 {
@@ -48,6 +49,11 @@ abstract class AbstractClient implements HTTPClientContract
     public function execute(): HTTPClientResponse
     {
         return $this->getAdapter()->request($this->request);
+    }
+
+    public function stream(): HTTPStreamResponse
+    {
+        return $this->getAdapter()->stream($this->request);
     }
 
     protected function getAdapter(): HTTPClientAdapter

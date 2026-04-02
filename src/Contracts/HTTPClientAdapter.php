@@ -12,4 +12,11 @@ interface HTTPClientAdapter
      * @throws HTTPClientException
      */
     public function request(HTTPClientRequest $request): HTTPClientResponse;
+
+    /**
+     * @param HTTPClientRequest $request
+     * @return HTTPStreamResponse
+     * @throws HTTPClientException
+     */
+    public function stream(HTTPClientRequest $request): HTTPStreamResponse;
 }
