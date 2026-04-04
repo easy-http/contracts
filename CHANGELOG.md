@@ -8,9 +8,11 @@
 - Renamed `EasyClientContract` to `HTTPClientContract`. ([#4](https://github.com/easy-http/contracts/pull/4))
 - Renamed `ImpossibleToParseJsonException` to `HTTPJsonParseException`. ([#5](https://github.com/easy-http/contracts/pull/5))
 - Introduced `HTTPClientFactory` and refactored `AbstractClient` to create requests and adapters through factory methods. ([#6](https://github.com/easy-http/contracts/pull/6))
+- Added streaming support to `AbstractClient`/`HTTPClientContract` via `stream()` and extended `HTTPClientAdapter` with `stream(HTTPClientRequest $request): HTTPStreamResponse`. ([#8](https://github.com/easy-http/contracts/pull/8))
 
 ### Added
 - URL-encoded request data support to `HTTPClientRequest`/`ClientRequest` via `setUrlEncodedData()`, `getUrlEncodedData()`, and `hasUrlEncodedData()`. ([#7](https://github.com/easy-http/contracts/pull/7))
+- Introduced `HTTPStreamResponse` contract. ([#8](https://github.com/easy-http/contracts/pull/8))
 
 ## [v2.0.0 (2025-06-15)](https://github.com/easy-http/contracts/tree/v2.0.0)
 

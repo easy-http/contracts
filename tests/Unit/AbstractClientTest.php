@@ -3,6 +3,7 @@
 namespace EasyHTTP\Contracts\Tests\Unit;
 
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
+use EasyHTTP\Contracts\Contracts\HTTPStreamResponse;
 use EasyHTTP\Contracts\Exceptions\HTTPClientException;
 use EasyHTTP\Contracts\Exceptions\HTTPConnectionException;
 use EasyHTTP\Contracts\Exceptions\HTTPJsonParseException;
@@ -71,6 +72,50 @@ class AbstractClientTest extends TestCase
             ['Server' => 'Apache/2.4.38 (Debian)', 'X-Info' => 'GET ' . $this->uri],
             $response->getHeaders()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function itStreamsAPreparedRequest(): HTTPStreamResponse
+    {
+        $client = new SomeClient();
+        $client->prepareRequest('GET', $this->uri);
+
+        $response = $client->stream();
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame(
+            ['Server' => 'Apache/2.4.38 (Debian)', 'X-Info' => 'GET ' . $this->uri],
+            $response->getHeaders()
+        );
+        $this->assertSame(['{"key":"value"}'], iterator_to_array($response->getBody(), false));
+
+        return $response;
+    }
+
+    /**
+     * @test
+     */
+    public function itStreamsWithCustomHandler()
+    {
+        $client = new SomeClient();
+        $client->withHandler(
+            function () {
+                return [
+                    'status' => 206,
+                    'headers' => ['Server' => 'Apache/2.4.38 (Ubuntu)'],
+                    'body' => 'chunk one chunk two',
+                ];
+            }
+        );
+        $client->prepareRequest('GET', $this->uri);
+
+        $response = $client->stream();
+
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame(['Server' => 'Apache/2.4.38 (Ubuntu)'], $response->getHeaders());
+        $this->assertSame(['chunk', 'one', 'chunk', 'two'], iterator_to_array($response->getBody(), false));
     }
 
     /**
