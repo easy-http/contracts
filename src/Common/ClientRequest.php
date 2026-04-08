@@ -2,6 +2,7 @@
 
 namespace EasyHTTP\Contracts\Common;
 
+use EasyHTTP\Contracts\Contracts\BodyPayload\BodyPayloadContract;
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
 use EasyHTTP\Contracts\Contracts\Request\HTTPSecurityContext;
 
@@ -10,10 +11,8 @@ class ClientRequest implements HTTPClientRequest
     protected string $method;
     protected string $uri;
     protected array $headers = [];
-    protected string $body = '';
-    protected array $json = [];
+    protected ?BodyPayloadContract $bodyPayload = null;
     protected array $query = [];
-    protected array $urlEncodedData = [];
     protected ?HTTPSecurityContext $securityContext = null;
     protected int $timeout = 10;
     protected array $basicAuth = [];
@@ -45,34 +44,14 @@ class ClientRequest implements HTTPClientRequest
         return $this->headers;
     }
 
-    public function getBody(): string
+    public function getBodyPayload(): ?BodyPayloadContract
     {
-        if (!$this->hasJson()) {
-            return $this->body;
-        }
-        
-        $body = json_encode($this->json);
-
-        if (!$body) {
-            return '';
-        }
-
-        return $body;
-    }
-
-    public function getJson(): array
-    {
-        return $this->json;
+        return $this->bodyPayload;
     }
 
     public function getQuery(): array
     {
         return $this->query;
-    }
-
-    public function getUrlEncodedData(): array
-    {
-        return $this->urlEncodedData;
     }
 
     public function getTimeout(): int
@@ -90,30 +69,9 @@ class ClientRequest implements HTTPClientRequest
         return $this->basicAuth;
     }
 
-    public function hasBody(): bool
-    {
-        if (!$this->hasJson()) {
-            return !empty($this->body);
-        }
-
-        $body = json_encode($this->json);
-
-        return (bool) !empty($body);
-    }
-
-    public function hasJson(): bool
-    {
-        return !empty($this->json);
-    }
-
     public function hasQuery(): bool
     {
         return !empty($this->query);
-    }
-
-    public function hasUrlEncodedData(): bool
-    {
-        return !empty($this->urlEncodedData);
     }
 
     public function hasHeaders(): bool
@@ -161,17 +119,9 @@ class ClientRequest implements HTTPClientRequest
         return $this;
     }
 
-    public function setBody(string $body): self
+    public function setBodyPayload(BodyPayloadContract $bodyPayload): self
     {
-        $this->json = [];
-        $this->body = $body;
-
-        return $this;
-    }
-
-    public function setJson(array $json): self
-    {
-        $this->json = $json;
+        $this->bodyPayload = $bodyPayload;
 
         return $this;
     }
@@ -179,13 +129,6 @@ class ClientRequest implements HTTPClientRequest
     public function setQuery(array $query): self
     {
         $this->query = $query;
-
-        return $this;
-    }
-
-    public function setUrlEncodedData(array $urlEncodedData): self
-    {
-        $this->urlEncodedData = $urlEncodedData;
 
         return $this;
     }

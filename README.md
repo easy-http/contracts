@@ -23,7 +23,7 @@
 
 **A Solid set of Adapter-Driven HTTP contracts for PHP**
 
-We provide differet adapters for common HTTP Clients like Guzzle, Symfony and others.
+We provide different adapters for common HTTP Clients like Guzzle, Symfony and others.
 
 📚 Check out the [Documentation](https://easy-http.com/docs) to learn how to use any adapter that implements these contracts.
 

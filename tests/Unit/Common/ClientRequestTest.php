@@ -2,6 +2,11 @@
 
 namespace EasyHTTP\Contracts\Tests\Unit\Common;
 
+use EasyHTTP\Contracts\Common\Request\IterableBodyPayload;
+use EasyHTTP\Contracts\Common\Request\JsonBodyPayload;
+use EasyHTTP\Contracts\Common\Request\ResourceBodyPayload;
+use EasyHTTP\Contracts\Common\Request\StringBodyPayload;
+use EasyHTTP\Contracts\Common\Request\UrlEncodedBodyPayload;
 use EasyHTTP\Contracts\Common\SecurityContext;
 use EasyHTTP\Contracts\Tests\TestCase;
 use EasyHTTP\Contracts\Tests\Unit\Example\ClientRequest;
@@ -21,10 +26,8 @@ class ClientRequestTest extends TestCase
         $this->assertSame($method, $request->getMethod());
         $this->assertSame($url, $request->getUri());
         $this->assertFalse($request->hasHeaders());
-        $this->assertEmpty($request->getBody());
-        $this->assertFalse($request->hasJson());
+        $this->assertNull($request->getBodyPayload());
         $this->assertFalse($request->hasQuery());
-        $this->assertFalse($request->hasUrlEncodedData());
         $this->assertFalse($request->hasSecurityContext());
         $this->assertFalse($request->isSSL());
         $this->assertFalse($request->hasBasicAuth());
@@ -41,9 +44,9 @@ class ClientRequestTest extends TestCase
         $url = $this->faker->url;
         $request->setMethod($method);
         $request->setUri($url);
-        $request->setJson(['foo' => 'bar']);
+        $payload = new JsonBodyPayload(['foo' => 'bar']);
+        $request->setBodyPayload($payload);
         $request->setQuery(['bar' => 'baz']);
-        $request->setUrlEncodedData(['alpha' => 'beta']);
         $request->setTimeout(20);
         $request->setHeaders(['a' => 'b']);
         $request->setHeader('auth', 'xdsG56');
@@ -54,12 +57,9 @@ class ClientRequestTest extends TestCase
 
         $this->assertSame($method, $request->getMethod());
         $this->assertSame($url, $request->getUri());
-        $this->assertSame(['foo' => 'bar'], $request->getJson());
-        $this->assertTrue($request->hasJson());
+        $this->assertSame($payload, $request->getBodyPayload());
         $this->assertSame(['bar' => 'baz'], $request->getQuery());
         $this->assertTrue($request->hasQuery());
-        $this->assertSame(['alpha' => 'beta'], $request->getUrlEncodedData());
-        $this->assertTrue($request->hasUrlEncodedData());
         $this->assertSame(20, $request->getTimeout());
         $this->assertSame('xdsG56', $request->getHeader('auth'));
         $this->assertSame(['a' => 'b', 'auth' => 'xdsG56'], $request->getHeaders());
@@ -73,81 +73,94 @@ class ClientRequestTest extends TestCase
     /**
      * @test
      */
-    public function itCanSetTheBodyAsJson()
+    public function itCanAssignAStringBodyPayload()
     {
         $request = new ClientRequest('POST', $this->faker->url);
+        $payload = new StringBodyPayload('Some payload');
 
-        $request->setJson(['foo' => 'bar']);
+        $request->setBodyPayload($payload);
 
-        $this->assertSame(['foo' => 'bar'], $request->getJson());
-        $this->assertSame('{"foo":"bar"}', $request->getBody());
+        $this->assertSame($payload, $request->getBodyPayload());
+        $this->assertSame('Some payload', $request->getBodyPayload()->getContents());
     }
 
     /**
      * @test
      */
-    public function itCannotParseWrontJsonValues()
+    public function itCanAssignAJsonBodyPayload()
     {
         $request = new ClientRequest('POST', $this->faker->url);
+        $payload = new JsonBodyPayload(['foo' => 'bar']);
 
-        $request->setJson(["\xc3" => 'bar']);
+        $request->setBodyPayload($payload);
 
-        $this->assertSame('', $request->getBody());
+        $this->assertSame($payload, $request->getBodyPayload());
+        $this->assertSame(['foo' => 'bar'], $request->getBodyPayload()->getContents());
     }
 
     /**
      * @test
      */
-    public function itCanChangeTheBodyPreviouslyAsJson()
+    public function itCanAssignAUrlEncodedBodyPayload()
     {
         $request = new ClientRequest('POST', $this->faker->url);
+        $payload = new UrlEncodedBodyPayload(['foo' => 'bar', 'flag' => 'enabled']);
 
-        $request->setJson(['foo' => 'bar']);
-        $request->setBody('Not Found');
+        $request->setBodyPayload($payload);
 
-        $this->assertSame([], $request->getJson());
-        $this->assertSame('Not Found', $request->getBody());
+        $this->assertSame($payload, $request->getBodyPayload());
+        $this->assertSame(['foo' => 'bar', 'flag' => 'enabled'], $request->getBodyPayload()->getContents());
     }
 
     /**
      * @test
      */
-    public function itCanChangeTheBodyPreviouslyAsPlainText()
+    public function itCanAssignAnIterableBodyPayload()
     {
         $request = new ClientRequest('POST', $this->faker->url);
+        $payload = new IterableBodyPayload(['chunk-one', 'chunk-two']);
 
-        $request->setBody('Not Found');
-        $request->setJson(['foo' => 'bar']);
+        $request->setBodyPayload($payload);
 
-        $this->assertSame(['foo' => 'bar'], $request->getJson());
-        $this->assertSame('{"foo":"bar"}', $request->getBody());
+        $this->assertSame($payload, $request->getBodyPayload());
+        $this->assertSame(
+            ['chunk-one', 'chunk-two'],
+            iterator_to_array($request->getBodyPayload()->getContents(), false)
+        );
     }
 
     /**
      * @test
      */
-    public function itHasBodyForJsonAssignment()
+    public function itCanAssignAResourceBodyPayload()
     {
         $request = new ClientRequest('POST', $this->faker->url);
+        $resource = fopen('php://memory', 'r+');
+        $this->assertIsResource($resource);
+        fwrite($resource, 'sample');
+        rewind($resource);
+        $payload = new ResourceBodyPayload($resource);
 
-        $this->assertFalse($request->hasBody());
+        $request->setBodyPayload($payload);
 
-        $request->setJson(['foo' => 'bar']);
+        $this->assertSame($payload, $request->getBodyPayload());
+        $this->assertIsResource($request->getBodyPayload()->getContents());
 
-        $this->assertTrue($request->hasBody());
+        fclose($resource);
     }
 
     /**
      * @test
      */
-    public function itHasBodyWhenItIsAssigned()
+    public function itReplacesBodyPayloadWhenSettingAnotherOne()
     {
         $request = new ClientRequest('POST', $this->faker->url);
+        $request->setBodyPayload(new StringBodyPayload('first'));
 
-        $this->assertFalse($request->hasBody());
+        $payload = new JsonBodyPayload(['next' => 'value']);
+        $request->setBodyPayload($payload);
 
-        $request->setBody('Not Found');
-
-        $this->assertTrue($request->hasBody());
+        $this->assertSame($payload, $request->getBodyPayload());
+        $this->assertSame(['next' => 'value'], $request->getBodyPayload()->getContents());
     }
 }
