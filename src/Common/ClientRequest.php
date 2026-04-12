@@ -89,6 +89,11 @@ class ClientRequest implements HTTPClientRequest
         return !empty($this->basicAuth);
     }
 
+    public function hasBodyPayload(): bool
+    {
+        return $this->getBodyPayload() !== null;
+    }
+
     public function setMethod(string $method): self
     {
         $this->method = $method;
