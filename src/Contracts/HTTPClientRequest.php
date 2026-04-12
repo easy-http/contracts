@@ -2,6 +2,7 @@
 
 namespace EasyHTTP\Contracts\Contracts;
 
+use EasyHTTP\Contracts\Contracts\BodyPayload\BodyPayloadContract;
 use EasyHTTP\Contracts\Contracts\Request\HTTPSecurityContext;
 
 interface HTTPClientRequest
@@ -18,15 +19,19 @@ interface HTTPClientRequest
      */
     public function getHeaders(): array;
 
-    public function getBody(): string;
-
     /**
-     * Returns the value encoded in JSON as an array of key -> value pairs
-     * Ex: ['foo' => 'bar', 'flag' => 'enabled']
+     * Returns the body payload.
      *
-     * @return array
+     * This interface defines a common way to get the body payload from the request.
+     * Some examples of body payloads are:
+     *
+     * - strings
+     * - resources
+     * - iterables
+     *
+     * @return BodyPayloadContract|null
      */
-    public function getJson(): array;
+    public function getBodyPayload(): ?BodyPayloadContract;
 
     /**
      * Returns an array of key -> value pairs of query parameters
@@ -35,14 +40,6 @@ interface HTTPClientRequest
      * @return array
      */
     public function getQuery(): array;
-
-    /**
-     * Returns an array of key -> value pairs to be sent as URL-encoded form data
-     * Ex: ['foo' => 'bar', 'flag' => 'enabled']
-     *
-     * @return array
-     */
-    public function getUrlEncodedData(): array;
 
     public function getTimeout(): int;
     public function getSecurityContext(): ?HTTPSecurityContext;
@@ -57,21 +54,17 @@ interface HTTPClientRequest
     public function getBasicAuth(): array;
 
     public function hasHeaders(): bool;
-    public function hasBody(): bool;
-    public function hasJson(): bool;
     public function hasQuery(): bool;
-    public function hasUrlEncodedData(): bool;
     public function hasSecurityContext(): bool;
     public function hasBasicAuth(): bool;
+    public function hasBodyPayload(): bool;
 
     public function setMethod(string $method): self;
     public function setUri(string $uri): self;
     public function setHeader(string $key, string $value): self;
     public function setHeaders(array $headers): self;
-    public function setBody(string $body): self;
-    public function setJson(array $json): self;
+    public function setBodyPayload(BodyPayloadContract $bodyPayload): self;
     public function setQuery(array $query): self;
-    public function setUrlEncodedData(array $urlEncodedData): self;
 
     public function setTimeout(int $timeout): self;
     public function setSecurityContext(HTTPSecurityContext $securityContext): self;
