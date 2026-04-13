@@ -12,7 +12,7 @@
 <p align="center"><img src="https://blog.pleets.org/img/articles/easy-http-contracts.png" style="max-width: 100%; width: 400px;"></p>
 
 <p align="center">
-    :rocket: Seamlessly switch between different HTTP clients adapters using a standardized set of contracts
+    :rocket: Seamlessly switch between different HTTP client adapters using a standardized set of contracts
 </p>
 
 # HTTP Contracts
@@ -35,7 +35,7 @@ different adapters like Guzzle, Symfony and others.
 
 ### What this Package Provides
 
-- It stablishes a set of contracts that provide a standardized interface for working with different HTTP clients like Guzzle, Symfony, and others via adapters.
+- It establishes a set of contracts that provide a standardized interface for working with different HTTP clients like Guzzle, Symfony, and others via adapters.
 - A domain-local and solid abstraction where requests and responses intent are explicit and discoverable.
 - A fluent and explicit interface for building HTTP calls that is simpler than pure PSR* implementations.
 
@@ -44,7 +44,7 @@ different adapters like Guzzle, Symfony and others.
 - A pure PSR-7/PSR-18 package. Although you can still use Guzzle/Symfony or others via adapters.
 
 Let's explore why pure PSR can become complex (more object orchestration). The following example
-shows a common orquestration which is fully PSR compliant.
+shows a common orchestration which is fully PSR compliant.
 
 ```php
 $psrClient = new PsrClient();
@@ -60,15 +60,17 @@ $request = $psr17->createRequest('POST', 'https://api.example.com/users')
 $response = $psrClient->sendRequest($request);
 ```
 
-Now, let's see how the same example looks like using `easy-http/contracts` (intent-focused API).
+Now, let's see how the same example looks using `easy-http/contracts` (intent-focused API).
 
 ```php
+use EasyHTTP\Contracts\Common\Request\JsonBodyPayload;
+
 $request = $client->prepareRequest('POST', 'https://api.example.com/users')
     ->setHeader('Content-Type', 'application/json')
-    ->setJson([
+    ->setBodyPayload(new JsonBodyPayload([
         'name' => 'John Doe',
         'role' => 'admin',
-    ]);
+    ]));
 
 $response = $client->execute();
 ```
@@ -89,7 +91,7 @@ $guzzleClient->request(
     'GET',
     'https://api.example.com/users',
     [
-        'verify' => true
+        'verify' => true,
         'auth' => ['user', 'pass']
     ]
 );
@@ -104,7 +106,7 @@ $symfonyClient->request(
     'GET',
     'https://api.example.com/users',
     [
-        'verify_peer' => true
+        'verify_peer' => true,
         'auth_basic' => ['user', 'pass']
     ]
 );
@@ -118,9 +120,9 @@ $request = $client->prepareRequest('GET', 'https://api.example.com/users')
     ->ssl(true)
     ->setBasicAuth('user', 'pass');
 
-$response = $client->execute();
+$response = $client->execute(); // or $stream = $client->stream();
 ```
 
 The backend implementation behind this interface can still use Guzzle. We provide adapters for multiple
-HTTP clients. You can later swap the underlying implementation if needed, so you have the best of both worls!,
-a well-stablish and solid interface on top of your favorite client.
+HTTP clients. You can later swap the underlying implementation if needed, so you have the best of both worlds:
+a well-established and solid interface on top of your favorite client.
