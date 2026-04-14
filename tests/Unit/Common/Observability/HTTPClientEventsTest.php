@@ -1,0 +1,69 @@
+<?php
+
+namespace EasyHTTP\Contracts\Tests\Unit\Common\Observability;
+
+use EasyHTTP\Contracts\Contracts\Observability\HTTPClientEventNames;
+use EasyHTTP\Contracts\Events\RequestFailed;
+use EasyHTTP\Contracts\Events\RequestStarted;
+use EasyHTTP\Contracts\Events\RequestSucceeded;
+use EasyHTTP\Contracts\Tests\TestCase;
+use EasyHTTP\Contracts\Tests\Unit\Example\ClientRequest;
+use EasyHTTP\Contracts\Tests\Unit\Example\ClientResponse;
+use RuntimeException;
+
+class HTTPClientEventsTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function itBuildsARequestStartedEvent()
+    {
+        $request = new ClientRequest('POST', 'https://api.example.com/users');
+
+        $event = new RequestStarted(
+            $request,
+            ['feature' => 'logging']
+        );
+
+        $this->assertSame(HTTPClientEventNames::REQUEST_STARTED, $event->getName());
+        $this->assertSame($request, $event->getRequest());
+        $this->assertSame(['feature' => 'logging'], $event->getContext());
+    }
+
+    /**
+     * @test
+     */
+    public function itBuildsARequestSucceededEvent()
+    {
+        $response = new ClientResponse([
+            'status' => 200,
+            'headers' => ['Server' => 'Apache'],
+            'body' => '{"ok":true}'
+        ]);
+
+        $event = new RequestSucceeded(
+            $response
+        );
+
+        $this->assertSame(HTTPClientEventNames::REQUEST_SUCCEEDED, $event->getName());
+        $this->assertSame($response, $event->getResponse());
+    }
+
+    /**
+     * @test
+     */
+    public function itBuildsARequestFailedEvent()
+    {
+        $exception = new RuntimeException('Network timeout');
+        $request = new ClientRequest('PATCH', 'https://api.example.com/users/10');
+
+        $event = new RequestFailed(
+            $request,
+            $exception
+        );
+
+        $this->assertSame(HTTPClientEventNames::REQUEST_FAILED, $event->getName());
+        $this->assertSame($request, $event->getRequest());
+        $this->assertSame($exception, $event->getException());
+    }
+}

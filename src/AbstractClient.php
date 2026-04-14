@@ -7,6 +7,11 @@ use EasyHTTP\Contracts\Contracts\HTTPClientAdapter;
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 use EasyHTTP\Contracts\Contracts\HTTPStreamResponse;
+use EasyHTTP\Contracts\Events\RequestFailed;
+use EasyHTTP\Contracts\Events\RequestStarted;
+use EasyHTTP\Contracts\Events\RequestSucceeded;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 abstract class AbstractClient implements HTTPClientContract
 {
@@ -14,6 +19,7 @@ abstract class AbstractClient implements HTTPClientContract
     protected HTTPClientRequest $request;
     protected HTTPClientFactory $factory;
     protected $handler;
+    protected ?EventDispatcherInterface $eventDispatcher = null;
 
     public function __construct(HTTPClientFactory $factory)
     {
@@ -28,7 +34,18 @@ abstract class AbstractClient implements HTTPClientContract
     public function call(string $method, string $uri): HTTPClientResponse
     {
         $request = $this->factory->createRequest($method, $uri);
-        return $this->getAdapter()->request($request);
+
+        $this->emitStarted($request, 'call');
+
+        try {
+            $response = $this->getAdapter()->request($request);
+            $this->emitSucceeded($response, 'call');
+
+            return $response;
+        } catch (Throwable $exception) {
+            $this->emitFailed($request, $exception, 'call');
+            throw $exception;
+        }
     }
 
     public function prepareRequest(string $method, string $uri): HTTPClientRequest
@@ -46,14 +63,79 @@ abstract class AbstractClient implements HTTPClientContract
         return $this;
     }
 
+    public function withEventDispatcher(EventDispatcherInterface $eventDispatcher): self
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
+    }
+
     public function execute(): HTTPClientResponse
     {
-        return $this->getAdapter()->request($this->request);
+        $this->emitStarted($this->request, 'execute');
+
+        try {
+            $response = $this->getAdapter()->request($this->request);
+            $this->emitSucceeded($response, 'execute');
+
+            return $response;
+        } catch (Throwable $exception) {
+            $this->emitFailed($this->request, $exception, 'execute');
+            throw $exception;
+        }
     }
 
     public function stream(): HTTPStreamResponse
     {
-        return $this->getAdapter()->stream($this->request);
+        $this->emitStarted($this->request, 'stream');
+
+        try {
+            $response = $this->getAdapter()->stream($this->request);
+
+            return $response;
+        } catch (Throwable $exception) {
+            $this->emitFailed($this->request, $exception, 'stream');
+            throw $exception;
+        }
+    }
+
+    protected function emitStarted(HTTPClientRequest $request, string $operation): void
+    {
+        if (!$this->hasEventDispatcher()) {
+            return;
+        }
+
+        $this->eventDispatcher->dispatch(new RequestStarted($request, [
+            'operation' => $operation
+        ]));
+    }
+
+    protected function emitSucceeded(
+        HTTPClientResponse $response,
+        string $operation
+    ): void {
+        if (!$this->hasEventDispatcher()) {
+            return;
+        }
+
+        $this->eventDispatcher->dispatch(new RequestSucceeded($response, ['operation' => $operation]));
+    }
+
+    protected function emitFailed(
+        HTTPClientRequest $request,
+        Throwable $exception,
+        string $operation
+    ): void {
+        if (!$this->hasEventDispatcher()) {
+            return;
+        }
+
+        $this->eventDispatcher->dispatch(new RequestFailed($request, $exception, ['operation' => $operation]));
+    }
+
+    protected function hasEventDispatcher(): bool
+    {
+        return $this->eventDispatcher !== null;
     }
 
     protected function getAdapter(): HTTPClientAdapter
