@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHTTP\Contracts\Contracts\Observability;
+namespace EasyHTTP\Contracts\Events;
 
-final class HTTPClientEventNames
+final class HTTPClientEvent
 {
     public const REQUEST_STARTED = 'request.started';
     public const REQUEST_SUCCEEDED = 'request.succeeded';

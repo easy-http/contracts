@@ -3,7 +3,6 @@
 namespace EasyHTTP\Contracts\Events;
 
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
-use EasyHTTP\Contracts\Contracts\Observability\HTTPClientEventNames;
 use Throwable;
 
 class RequestFailed extends AbstractHTTPClientEvent
@@ -26,7 +25,7 @@ class RequestFailed extends AbstractHTTPClientEvent
 
     public function getName(): string
     {
-        return HTTPClientEventNames::REQUEST_FAILED;
+        return HTTPClientEvent::REQUEST_FAILED;
     }
 
     public function getException(): Throwable

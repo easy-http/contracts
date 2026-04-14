@@ -3,7 +3,6 @@
 namespace EasyHTTP\Contracts\Events;
 
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
-use EasyHTTP\Contracts\Contracts\Observability\HTTPClientEventNames;
 
 class RequestStarted extends AbstractHTTPClientEvent
 {
@@ -20,7 +19,7 @@ class RequestStarted extends AbstractHTTPClientEvent
 
     public function getName(): string
     {
-        return HTTPClientEventNames::REQUEST_STARTED;
+        return HTTPClientEvent::REQUEST_STARTED;
     }
 
     public function getRequest(): HTTPClientRequest

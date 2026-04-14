@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyHTTP\Contracts\Contracts\Observability;
+namespace EasyHTTP\Contracts\Contracts;
 
 interface HTTPClientEvent
 {

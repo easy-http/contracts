@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyHTTP\Contracts\Tests\Unit\Common\Observability;
+namespace EasyHTTP\Contracts\Tests\Unit\Events;
 
-use EasyHTTP\Contracts\Contracts\Observability\HTTPClientEventNames;
+use EasyHTTP\Contracts\Events\HTTPClientEvent;
 use EasyHTTP\Contracts\Events\RequestFailed;
 use EasyHTTP\Contracts\Events\RequestStarted;
 use EasyHTTP\Contracts\Events\RequestSucceeded;
@@ -25,7 +25,7 @@ class HTTPClientEventsTest extends TestCase
             ['feature' => 'logging']
         );
 
-        $this->assertSame(HTTPClientEventNames::REQUEST_STARTED, $event->getName());
+        $this->assertSame(HTTPClientEvent::REQUEST_STARTED, $event->getName());
         $this->assertSame($request, $event->getRequest());
         $this->assertSame(['feature' => 'logging'], $event->getContext());
     }
@@ -45,7 +45,7 @@ class HTTPClientEventsTest extends TestCase
             $response
         );
 
-        $this->assertSame(HTTPClientEventNames::REQUEST_SUCCEEDED, $event->getName());
+        $this->assertSame(HTTPClientEvent::REQUEST_SUCCEEDED, $event->getName());
         $this->assertSame($response, $event->getResponse());
     }
 
@@ -62,7 +62,7 @@ class HTTPClientEventsTest extends TestCase
             $exception
         );
 
-        $this->assertSame(HTTPClientEventNames::REQUEST_FAILED, $event->getName());
+        $this->assertSame(HTTPClientEvent::REQUEST_FAILED, $event->getName());
         $this->assertSame($request, $event->getRequest());
         $this->assertSame($exception, $event->getException());
     }

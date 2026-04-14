@@ -2,7 +2,7 @@
 
 namespace EasyHTTP\Contracts\Events;
 
-use EasyHTTP\Contracts\Contracts\Observability\HTTPClientEvent;
+use EasyHTTP\Contracts\Contracts\HTTPClientEvent;
 
 abstract class AbstractHTTPClientEvent implements HTTPClientEvent
 {

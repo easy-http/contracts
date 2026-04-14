@@ -3,7 +3,6 @@
 namespace EasyHTTP\Contracts\Events;
 
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
-use EasyHTTP\Contracts\Contracts\Observability\HTTPClientEventNames;
 
 class RequestSucceeded extends AbstractHTTPClientEvent
 {
@@ -20,7 +19,7 @@ class RequestSucceeded extends AbstractHTTPClientEvent
 
     public function getName(): string
     {
-        return HTTPClientEventNames::REQUEST_SUCCEEDED;
+        return HTTPClientEvent::REQUEST_SUCCEEDED;
     }
 
     public function getResponse(): HTTPClientResponse
