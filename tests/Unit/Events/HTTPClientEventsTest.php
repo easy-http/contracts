@@ -6,9 +6,11 @@ use EasyHTTP\Contracts\Constants\HTTPClientEvent;
 use EasyHTTP\Contracts\Events\RequestFailed;
 use EasyHTTP\Contracts\Events\RequestStarted;
 use EasyHTTP\Contracts\Events\RequestSucceeded;
+use EasyHTTP\Contracts\Events\StreamSucceeded;
 use EasyHTTP\Contracts\Tests\TestCase;
 use EasyHTTP\Contracts\Tests\Unit\Example\ClientRequest;
 use EasyHTTP\Contracts\Tests\Unit\Example\ClientResponse;
+use EasyHTTP\Contracts\Tests\Unit\Example\StreamResponse;
 use RuntimeException;
 
 class HTTPClientEventsTest extends TestCase
@@ -65,5 +67,24 @@ class HTTPClientEventsTest extends TestCase
         $this->assertSame(HTTPClientEvent::REQUEST_FAILED, $event->getName());
         $this->assertSame($request, $event->getRequest());
         $this->assertSame($exception, $event->getException());
+    }
+
+    /**
+     * @test
+     */
+    public function itBuildsAStreamSucceededEvent()
+    {
+        $response = new StreamResponse([
+            'status' => 200,
+            'headers' => ['Server' => 'Apache'],
+            'body' => 'chunk one'
+        ]);
+
+        $event = new StreamSucceeded(
+            $response
+        );
+
+        $this->assertSame(HTTPClientEvent::STREAM_SUCCEEDED, $event->getName());
+        $this->assertSame($response, $event->getResponse());
     }
 }

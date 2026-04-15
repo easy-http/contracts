@@ -7,6 +7,7 @@ use EasyHTTP\Contracts\Contracts\HTTPStreamResponse;
 use EasyHTTP\Contracts\Events\RequestFailed;
 use EasyHTTP\Contracts\Events\RequestStarted;
 use EasyHTTP\Contracts\Events\RequestSucceeded;
+use EasyHTTP\Contracts\Events\StreamSucceeded;
 use EasyHTTP\Contracts\Exceptions\HTTPClientException;
 use EasyHTTP\Contracts\Exceptions\HTTPConnectionException;
 use EasyHTTP\Contracts\Exceptions\HTTPJsonParseException;
@@ -156,9 +157,11 @@ class AbstractClientTest extends TestCase
         $events = $dispatcher->getEvents();
 
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertCount(1, $events);
+        $this->assertCount(2, $events);
         $this->assertInstanceOf(RequestStarted::class, $events[0]);
+        $this->assertInstanceOf(StreamSucceeded::class, $events[1]);
         $this->assertSame('stream', $events[0]->getContext()['operation']);
+        $this->assertSame('stream', $events[1]->getContext()['operation']);
     }
 
     /**

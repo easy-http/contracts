@@ -11,6 +11,7 @@ use EasyHTTP\Contracts\Contracts\HTTPStreamResponse;
 use EasyHTTP\Contracts\Events\RequestFailed;
 use EasyHTTP\Contracts\Events\RequestStarted;
 use EasyHTTP\Contracts\Events\RequestSucceeded;
+use EasyHTTP\Contracts\Events\StreamSucceeded;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
@@ -92,6 +93,7 @@ abstract class AbstractClient implements HTTPClientContract
 
         try {
             $response = $this->getAdapter()->stream($this->request);
+            $this->emit(new StreamSucceeded($response, ['operation' => 'stream']));
 
             return $response;
         } catch (Throwable $exception) {
