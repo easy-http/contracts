@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyHTTP\Contracts\Events;
+namespace EasyHTTP\Contracts\Constants;
 
 final class HTTPClientEvent
 {

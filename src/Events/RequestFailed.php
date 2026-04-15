@@ -2,6 +2,7 @@
 
 namespace EasyHTTP\Contracts\Events;
 
+use EasyHTTP\Contracts\Constants\HTTPClientEvent;
 use EasyHTTP\Contracts\Contracts\HTTPClientRequest;
 use Throwable;
 

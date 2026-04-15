@@ -2,7 +2,7 @@
 
 namespace EasyHTTP\Contracts\Tests\Unit\Events;
 
-use EasyHTTP\Contracts\Events\HTTPClientEvent;
+use EasyHTTP\Contracts\Constants\HTTPClientEvent;
 use EasyHTTP\Contracts\Events\RequestFailed;
 use EasyHTTP\Contracts\Events\RequestStarted;
 use EasyHTTP\Contracts\Events\RequestSucceeded;
