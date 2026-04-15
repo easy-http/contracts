@@ -195,6 +195,66 @@ class AbstractClientTest extends TestCase
     /**
      * @test
      */
+    public function itEmitsRequestFailedEventWhenExecuteThrowsException()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+        $client->prepareRequest('GET', $this->uri);
+        $client->withHandler(
+            function () {
+                throw new HTTPClientException('Execute failed');
+            }
+        );
+
+        try {
+            $client->execute();
+            $this->fail('A HTTPClientException was expected.');
+        } catch (HTTPClientException $exception) {
+            $events = $dispatcher->getEvents();
+
+            $this->assertCount(2, $events);
+            $this->assertInstanceOf(RequestStarted::class, $events[0]);
+            $this->assertInstanceOf(RequestFailed::class, $events[1]);
+            $this->assertSame($exception, $events[1]->getException());
+            $this->assertSame('execute', $events[0]->getContext()['operation']);
+            $this->assertSame('execute', $events[1]->getContext()['operation']);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function itEmitsRequestFailedEventWhenStreamThrowsException()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+        $client->prepareRequest('GET', $this->uri);
+        $client->withHandler(
+            function () {
+                throw new HTTPConnectionException('Stream failed');
+            }
+        );
+
+        try {
+            $client->stream();
+            $this->fail('A HTTPConnectionException was expected.');
+        } catch (HTTPConnectionException $exception) {
+            $events = $dispatcher->getEvents();
+
+            $this->assertCount(2, $events);
+            $this->assertInstanceOf(RequestStarted::class, $events[0]);
+            $this->assertInstanceOf(RequestFailed::class, $events[1]);
+            $this->assertSame($exception, $events[1]->getException());
+            $this->assertSame('stream', $events[0]->getContext()['operation']);
+            $this->assertSame('stream', $events[1]->getContext()['operation']);
+        }
+    }
+
+    /**
+     * @test
+     */
     public function itReuseTheAdapterForEachRequest()
     {
         $client = new SomeClient();
