@@ -18,7 +18,7 @@
 - Introduced `HTTPStreamResponse` contract. ([#8](https://github.com/easy-http/contracts/pull/8))
 - Added `setBodyPayload()` and `getBodyPayload()` to `HTTPClientRequest`/`ClientRequest`. ([#9](https://github.com/easy-http/contracts/pull/9))
 - Added dedicated body payload contracts and implementations for string, JSON, iterable, resource, and URL-encoded payloads. ([#9](https://github.com/easy-http/contracts/pull/9))
-- Added standardized observability event contracts (`request.started`, `request.succeeded`, and `request.failed`) with PSR-14 dispatcher integration. ([#10](https://github.com/easy-http/contracts/pull/10))
+- Added standardized observability event contracts (`request.started`, `request.succeeded`, `stream.succeeded`, and `request.failed`) with PSR-14 dispatcher integration. ([#10](https://github.com/easy-http/contracts/pull/10))
 - Added `withEventDispatcher()` to `HTTPClientContract` for plugging PSR-14 dispatchers. ([#10](https://github.com/easy-http/contracts/pull/10))
 
 ### Removed
