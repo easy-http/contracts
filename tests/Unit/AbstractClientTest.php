@@ -4,9 +4,14 @@ namespace EasyHTTP\Contracts\Tests\Unit;
 
 use EasyHTTP\Contracts\Contracts\HTTPClientResponse;
 use EasyHTTP\Contracts\Contracts\HTTPStreamResponse;
+use EasyHTTP\Contracts\Events\RequestFailed;
+use EasyHTTP\Contracts\Events\RequestStarted;
+use EasyHTTP\Contracts\Events\RequestSucceeded;
+use EasyHTTP\Contracts\Events\StreamSucceeded;
 use EasyHTTP\Contracts\Exceptions\HTTPClientException;
 use EasyHTTP\Contracts\Exceptions\HTTPConnectionException;
 use EasyHTTP\Contracts\Exceptions\HTTPJsonParseException;
+use EasyHTTP\Contracts\Tests\Unit\Example\InMemoryEventDispatcher;
 use EasyHTTP\Contracts\Tests\Unit\Example\SomeClient;
 use PHPUnit\Framework\TestCase;
 
@@ -116,6 +121,135 @@ class AbstractClientTest extends TestCase
         $this->assertSame(206, $response->getStatusCode());
         $this->assertSame(['Server' => 'Apache/2.4.38 (Ubuntu)'], $response->getHeaders());
         $this->assertSame(['chunk', 'one', 'chunk', 'two'], iterator_to_array($response->getBody(), false));
+    }
+
+    /**
+     * @test
+     */
+    public function itEmitsRequestLifecycleEventsForCall()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+
+        $response = $client->call('GET', $this->uri);
+        $events = $dispatcher->getEvents();
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertCount(2, $events);
+        $this->assertInstanceOf(RequestStarted::class, $events[0]);
+        $this->assertInstanceOf(RequestSucceeded::class, $events[1]);
+        $this->assertSame('call', $events[0]->getContext()['operation']);
+        $this->assertSame('call', $events[1]->getContext()['operation']);
+    }
+
+    /**
+     * @test
+     */
+    public function itEmitsRequestLifecycleEventsForStream()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+        $client->prepareRequest('GET', $this->uri);
+
+        $response = $client->stream();
+        $events = $dispatcher->getEvents();
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertCount(2, $events);
+        $this->assertInstanceOf(RequestStarted::class, $events[0]);
+        $this->assertInstanceOf(StreamSucceeded::class, $events[1]);
+        $this->assertSame('stream', $events[0]->getContext()['operation']);
+        $this->assertSame('stream', $events[1]->getContext()['operation']);
+    }
+
+    /**
+     * @test
+     */
+    public function itEmitsRequestFailedEventWhenRequestThrowsException()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+        $client->withHandler(
+            function () {
+                throw new HTTPClientException('Bad request exception');
+            }
+        );
+
+        try {
+            $client->call('GET', $this->uri);
+            $this->fail('A HTTPClientException was expected.');
+        } catch (HTTPClientException $exception) {
+            $events = $dispatcher->getEvents();
+
+            $this->assertCount(2, $events);
+            $this->assertInstanceOf(RequestStarted::class, $events[0]);
+            $this->assertInstanceOf(RequestFailed::class, $events[1]);
+            $this->assertSame($exception, $events[1]->getException());
+            $this->assertSame('call', $events[1]->getContext()['operation']);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function itEmitsRequestFailedEventWhenExecuteThrowsException()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+        $client->prepareRequest('GET', $this->uri);
+        $client->withHandler(
+            function () {
+                throw new HTTPClientException('Execute failed');
+            }
+        );
+
+        try {
+            $client->execute();
+            $this->fail('A HTTPClientException was expected.');
+        } catch (HTTPClientException $exception) {
+            $events = $dispatcher->getEvents();
+
+            $this->assertCount(2, $events);
+            $this->assertInstanceOf(RequestStarted::class, $events[0]);
+            $this->assertInstanceOf(RequestFailed::class, $events[1]);
+            $this->assertSame($exception, $events[1]->getException());
+            $this->assertSame('execute', $events[0]->getContext()['operation']);
+            $this->assertSame('execute', $events[1]->getContext()['operation']);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function itEmitsRequestFailedEventWhenStreamThrowsException()
+    {
+        $dispatcher = new InMemoryEventDispatcher();
+        $client = new SomeClient();
+        $client->withEventDispatcher($dispatcher);
+        $client->prepareRequest('GET', $this->uri);
+        $client->withHandler(
+            function () {
+                throw new HTTPConnectionException('Stream failed');
+            }
+        );
+
+        try {
+            $client->stream();
+            $this->fail('A HTTPConnectionException was expected.');
+        } catch (HTTPConnectionException $exception) {
+            $events = $dispatcher->getEvents();
+
+            $this->assertCount(2, $events);
+            $this->assertInstanceOf(RequestStarted::class, $events[0]);
+            $this->assertInstanceOf(RequestFailed::class, $events[1]);
+            $this->assertSame($exception, $events[1]->getException());
+            $this->assertSame('stream', $events[0]->getContext()['operation']);
+            $this->assertSame('stream', $events[1]->getContext()['operation']);
+        }
     }
 
     /**

@@ -11,12 +11,15 @@
 - Added streaming support to `AbstractClient`/`HTTPClientContract` via `stream()` and extended `HTTPClientAdapter` with `stream(HTTPClientRequest $request): HTTPStreamResponse`. ([#8](https://github.com/easy-http/contracts/pull/8))
 - Refactored `HTTPClientRequest`/`ClientRequest` to use `BodyPayloadContract` as the canonical request body abstraction. ([#9](https://github.com/easy-http/contracts/pull/9))
 - Created dedicated body payload interfaces (e.g. `StringBodyPayloadContract`, `JsonBodyPayloadContract`, `IterableBodyPayloadContract`, `ResourceBodyPayloadContract`, and `UrlEncodedBodyPayloadContract`) that replace previous tailored methods in requests. ([#9](https://github.com/easy-http/contracts/pull/9))
+- Added request lifecycle event emission in `AbstractClient` for `call()`, `execute()`, and `stream()` flows. ([#10](https://github.com/easy-http/contracts/pull/10))
 
 ### Added
 - URL-encoded request data support to `HTTPClientRequest`/`ClientRequest` via `setUrlEncodedData()`, `getUrlEncodedData()`, and `hasUrlEncodedData()`. ([#7](https://github.com/easy-http/contracts/pull/7))
 - Introduced `HTTPStreamResponse` contract. ([#8](https://github.com/easy-http/contracts/pull/8))
 - Added `setBodyPayload()` and `getBodyPayload()` to `HTTPClientRequest`/`ClientRequest`. ([#9](https://github.com/easy-http/contracts/pull/9))
 - Added dedicated body payload contracts and implementations for string, JSON, iterable, resource, and URL-encoded payloads. ([#9](https://github.com/easy-http/contracts/pull/9))
+- Added standardized observability event contracts (`request.started`, `request.succeeded`, `stream.succeeded`, and `request.failed`) with PSR-14 dispatcher integration. ([#10](https://github.com/easy-http/contracts/pull/10))
+- Added `withEventDispatcher()` to `HTTPClientContract` for plugging PSR-14 dispatchers. ([#10](https://github.com/easy-http/contracts/pull/10))
 
 ### Removed
 - Removed `getJson()`, `setJson()`, and `hasJson()` from `HTTPClientRequest` and `ClientRequest`. ([#9](https://github.com/easy-http/contracts/pull/9))
