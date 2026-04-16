@@ -11,118 +11,172 @@
 
 <p align="center"><img src="https://blog.pleets.org/img/articles/easy-http-contracts.png" style="max-width: 100%; width: 400px;"></p>
 
-<p align="center">
-    :rocket: Seamlessly switch between different HTTP client adapters using a standardized set of contracts
-</p>
-
-# HTTP Contracts
+# Easy HTTP Contracts
 
 <a href="https://sonarcloud.io/component_measures?metric=security_rating&branch=3.x&id=easy-http_contracts"><img src="https://sonarcloud.io/api/project_badges/measure?project=easy-http_contracts&metric=security_rating&branch=3.x" alt="Bugs"></a>
 <a href="https://sonarcloud.io/component_measures?metric=bugs&branch=3.x&id=easy-http_contracts"><img src="https://sonarcloud.io/api/project_badges/measure?project=easy-http_contracts&metric=bugs&branch=3.x" alt="Bugs"></a>
 <a href="https://sonarcloud.io/component_measures?metric=code_smells&branch=3.x&id=easy-http_contracts"><img src="https://sonarcloud.io/api/project_badges/measure?project=easy-http_contracts&metric=code_smells&branch=3.x" alt="Bugs"></a>
 
-**A Solid set of Adapter-Driven HTTP contracts for PHP**
+**Add testing, resilience, and data handling to any PHP HTTP client.**
 
-We provide different adapters for common HTTP Clients like Guzzle, Symfony and others.
+Easy HTTP is a **capabilities layer** designed to enhance existing clients like Guzzle, Symfony, and other clients.
 
-📚 Check out the [Documentation](https://easy-http.com/docs) to learn how to use any adapter that implements these contracts.
+If you are already using PSR-18, Easy HTTP is designed to complement your existing setup.
+It focuses on capabilities that PSR does not provide out of the box.
 
-## Philosophy
+📚 For full documentation, visit [easy-http.com/docs](https://easy-http.com/docs).
 
-This package defines an opinionated set of HTTP contracts and interfaces that standardizes
-request/response handling through a single and ergonomic interface while preserving consistency across
-different adapters like Guzzle, Symfony and others.
+## Why Easy HTTP?
 
-### What this Package Provides
+PSR standards solved interoperability by giving libraries a shared language for requests, responses, and client behavior,
+so packages can swap HTTP implementations without rewriting all integration points.
+But in real-world applications, teams still end up re-implementing:
 
-- It establishes a set of contracts that provide a standardized interface for working with different HTTP clients like Guzzle, Symfony, and others via adapters.
-- A domain-local and solid abstraction where requests and responses intent are explicit and discoverable.
-- A fluent and explicit interface for building HTTP calls that is simpler than pure PSR* implementations.
+- Logging and observability
+- Retries and resilience
+- Testing and mocking
+- DTO hydration
+- Consistent developer experience
 
-### What this project is not
+Easy HTTP aims to provide these capabilities on top of any client.
 
-- A pure PSR-7/PSR-18 package. Although you can still use Guzzle/Symfony or others via adapters.
+## The Idea
 
-Let's explore why pure PSR can become complex (more object orchestration). The following example
-shows a common orchestration which is fully PSR compliant.
+The idea is to add practical capabilities your client stack usually does not provide out of the box:
 
-```php
-$psrClient = new PsrClient();
-$psr17 = new Psr17Factory();
+- observability
+- resilience
+- testing ergonomics
+- data mapping and developer experience
 
-$request = $psr17->createRequest('POST', 'https://api.example.com/users')
-    ->withHeader('Content-Type', 'application/json')
-    ->withBody($psr17->createStream(json_encode([
-        'name' => 'John Doe',
-        'role' => 'admin',
-    ], JSON_THROW_ON_ERROR)));
+Easy HTTP brings these superpowers to your existing HTTP client strategy:
 
-$response = $psrClient->sendRequest($request);
+```text
+Your App
+   ↓
+Easy HTTP (Capabilities Layer)
+   ↓
+PSR-18 Client (Guzzle, Symfony, etc.)
 ```
 
-Now, let's see how the same example looks using `easy-http/contracts` (intent-focused API).
+- Keep your client
+- Gain superpowers
+
+## Current Scope in this Repository
+
+This package (`easy-http/contracts`) defines shared contracts and event primitives used by adapters and capabilities.
+
+Notable pieces include:
+
+- `HTTPClientAdapter`, `HTTPClientRequest`, `HTTPClientResponse`, `HTTPStreamResponse`
+- Event contracts and lifecycle events (`request.started`, `request.succeeded`, `stream.succeeded`, `request.failed`)
+- Adapter implementation rules for exception handling in `docs/adapter-implementation-rules.md`
+
+## Core Features
+
+### Observability (Planned)
 
 ```php
-use EasyHTTP\Contracts\Common\Request\JsonBodyPayload;
-
-$request = $client->prepareRequest('POST', 'https://api.example.com/users')
-    ->setHeader('Content-Type', 'application/json')
-    ->setBodyPayload(new JsonBodyPayload([
-        'name' => 'John Doe',
-        'role' => 'admin',
-    ]));
-
-$response = $client->execute();
+$http->withLogging($logger)->get('/users');
 ```
 
-Although some might argue that libraries like Guzzle, Symfony, or other HTTP clients provide a similarly simple interface for handling these scenarios (and that’s true), it comes with certain trade-offs.
+- logging
+- metrics
+- tracing hooks
 
-Have you ever tried migrating an existing Guzzle implementation to Symfony or another HTTP client? If not, let me walk you through some of the challenges you might face. Guzzle is a great HTTP client, and while it relies on PSR-7 interfaces for requests, responses, and streams, some of its custom methods do not fully comply with the standard. This allows for greater flexibility when adding options, but it can also make interoperability more difficult.
-
-The following example highlights a small difference between Guzzle and Symfony when setting up basic authentication
-and SSL verification using a custom non-compliant method.
+### Resilience (Planned)
 
 ```php
-use GuzzleHttp\Client;
-
-$guzzleClient = new Client();
-
-$guzzleClient->request(
-    'GET',
-    'https://api.example.com/users',
-    [
-        'verify' => true,
-        'auth' => ['user', 'pass']
-    ]
-);
+$http->withRetry(3)->get('/users');
 ```
+
+- retries and backoff
+- circuit breakers
+- fallback strategies
+
+### Advanced Testing (Coming Soon)
+
+Advanced testing capabilities are planned and will be documented once implementation is available.
+
+### DTO Hydration
+
+Turn JSON responses into typed objects with a Laravel-friendly style:
 
 ```php
-use Symfony\Component\HttpClient\CurlHttpClient as SymfonyClient;
+$response = $http->get('/users/1');
+$user = UserData::from($response->json());
 
-$symfonyClient = new SymfonyClient();
-
-$symfonyClient->request(
-    'GET',
-    'https://api.example.com/users',
-    [
-        'verify_peer' => true,
-        'auth_basic' => ['user', 'pass']
-    ]
-);
+$response = $http->get('/users');
+$users = collect($response->json('data'))->mapInto(UserData::class);
 ```
 
-It might seem simple, but you might want to avoid this kind of deviations. Here's how we would do it using
-the HTTP contracts this library provides:
+Planned support includes:
 
-```php
-$request = $client->prepareRequest('GET', 'https://api.example.com/users')
-    ->ssl(true)
-    ->setBasicAuth('user', 'pass');
+- validation hooks
+- strict and flexible modes
+- framework-agnostic usage
 
-$response = $client->execute(); // or $stream = $client->stream();
-```
+## Works With Your Stack
 
-The backend implementation behind this interface can still use Guzzle. We provide adapters for multiple
-HTTP clients. You can later swap the underlying implementation if needed, so you have the best of both worlds:
-a well-established and solid interface on top of your favorite client.
+Easy HTTP is designed to integrate with:
+
+- Guzzle
+- Symfony HTTP Client
+- Any PSR-18 client
+
+No lock-in. No replacement.
+
+## Design Philosophy
+
+1. **Do not replace standards**
+   - PSR already solved HTTP abstraction.
+2. **Add real-world capabilities**
+   - Focus on problems developers face in application code.
+3. **Stay client-agnostic**
+   - Adapt behavior to the underlying implementation.
+4. **Prioritize developer experience**
+   - Keep common tasks expressive and easy to maintain.
+
+## Package Roadmap (Planned)
+
+- `core` -> capability pipeline and adapters
+- `testing` -> mocks, assertions, replay
+- `dto` -> hydration and validation
+- `resilience` -> retries and circuit breakers
+- `observability` -> logging and metrics
+
+## Who Is This For?
+
+- Developers building API integrations
+- Teams that care about testing quality
+- Projects using clean architecture boundaries
+- Anyone tired of repetitive HTTP boilerplate
+
+## What This Is Not
+
+- Not an HTTP client
+- Not a PSR replacement
+- Not abstraction for abstraction's sake
+
+## Vision
+
+Easy HTTP aims to become the missing layer between HTTP clients and real-world applications.
+
+## Status
+
+Early stage. Direction recently redefined. Expect rapid iteration.
+
+## Contributing
+
+This project is evolving toward a capabilities-first approach.
+
+Contributions are welcome, especially around:
+
+- testing tools
+- DTO systems
+- resilience patterns
+- observability primitives
+
+## License
+
+MIT
