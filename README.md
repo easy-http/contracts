@@ -68,9 +68,8 @@ This package (`easy-http/contracts`) defines shared contracts and event primitiv
 
 Notable pieces include:
 
-- `HTTPClientAdapter`, `HTTPClientRequest`, `HTTPClientResponse`, `HTTPStreamResponse`
 - Event contracts and lifecycle events (`request.started`, `request.succeeded`, `stream.succeeded`, `request.failed`)
-- Adapter implementation rules for exception handling in `docs/adapter-implementation-rules.md`
+- Implementer guide in `docs/adapter-implementation-guide.md`
 
 ## Core Features
 
