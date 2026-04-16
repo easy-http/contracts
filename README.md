@@ -32,11 +32,11 @@ PSR standards solved interoperability by giving libraries a shared language for 
 so packages can swap HTTP implementations without rewriting all integration points.
 But in real-world applications, teams still end up re-implementing:
 
-- Logging and observability
-- Retries and resilience
-- Testing and mocking
-- DTO hydration
-- Consistent developer experience
+- **Logging and observability**
+- **Retries and resilience**
+- **Testing and mocking**
+- **DTO hydration**
+- **Consistent developer experience**
 
 Easy HTTP aims to provide these capabilities on top of any client.
 
